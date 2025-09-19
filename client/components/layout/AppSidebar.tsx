@@ -84,7 +84,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 {nav.map((item) => (
                   <SidebarMenuItem key={item.to}>
                     <SidebarMenuButton asChild isActive={pathname === item.to}>
-                      <NavLink to={item.to} className={cn("flex items-center gap-2")}> 
+                      <NavLink
+                        to={item.to}
+                        className={cn("flex items-center gap-2")}
+                      >
                         <item.icon className="shrink-0" />
                         <span>{item.label}</span>
                       </NavLink>
@@ -100,13 +103,13 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="px-2 py-1.5 text-xs text-muted-foreground">
             Logged in as <Badge variant="secondary">Manager</Badge>
           </div>
-          <Button variant="outline" className="mx-2 mb-2" onClick={logout}>Logout</Button>
+          <Button variant="outline" className="mx-2 mb-2" onClick={logout}>
+            Logout
+          </Button>
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>
-        {children}
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );
 }

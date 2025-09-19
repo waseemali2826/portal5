@@ -55,7 +55,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <Suspense fallback={<div className="p-6 text-sm text-muted-foreground">Loading…</div>}>
+          <Suspense
+            fallback={
+              <div className="p-6 text-sm text-muted-foreground">Loading…</div>
+            }
+          >
             <Routes>
               {/* Public site */}
               <Route element={<PublicLayout />}>
@@ -69,7 +73,13 @@ const App = () => (
               <Route path="/login" element={<Login />} />
 
               {/* Dashboard (protected) */}
-              <Route element={<RequireAuth><DashboardLayout /></RequireAuth>}>
+              <Route
+                element={
+                  <RequireAuth>
+                    <DashboardLayout />
+                  </RequireAuth>
+                }
+              >
                 <Route path="/dashboard" element={<Index />} />
                 <Route path="/dashboard/students" element={<Students />} />
                 <Route path="/dashboard/courses" element={<Courses />} />
@@ -80,7 +90,10 @@ const App = () => (
                 <Route path="/dashboard/admissions" element={<Admissions />} />
                 <Route path="/dashboard/roles" element={<Roles />} />
                 <Route path="/dashboard/batches" element={<Batches />} />
-                <Route path="/dashboard/certificates" element={<Certificates />} />
+                <Route
+                  path="/dashboard/certificates"
+                  element={<Certificates />}
+                />
                 <Route path="/dashboard/campuses" element={<Campuses />} />
                 <Route path="/dashboard/employees" element={<Employees />} />
                 <Route path="/dashboard/users" element={<Users />} />

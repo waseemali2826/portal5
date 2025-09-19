@@ -4,7 +4,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -14,13 +21,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
-import { CalendarDays, ChevronDown, Plus, Rocket, Sparkles } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronDown,
+  Plus,
+  Rocket,
+  Sparkles,
+} from "lucide-react";
 import { addStoredCourse } from "@/lib/courseStore";
 
- type Course = {
+type Course = {
   id: string;
   name: string;
   category: "Development" | "Design" | "Data" | "Marketing";
@@ -30,19 +50,91 @@ import { addStoredCourse } from "@/lib/courseStore";
   featured: boolean;
   status: "live" | "upcoming";
   startDate?: string; // for upcoming
- };
+};
 
 const allCourses: Course[] = [
-  { id: "CRS-101", name: "Full-Stack Web Development", category: "Development", duration: "6 mo", fees: 60000, createdAt: "2025-01-15", featured: true, status: "live" },
-  { id: "CRS-102", name: "UI/UX Design Mastery", category: "Design", duration: "4 mo", fees: 45000, createdAt: "2025-02-01", featured: true, status: "live" },
-  { id: "CRS-103", name: "Data Science with Python", category: "Data", duration: "8 mo", fees: 80000, createdAt: "2024-12-20", featured: false, status: "live" },
-  { id: "CRS-104", name: "Digital Marketing Essentials", category: "Marketing", duration: "3 mo", fees: 40000, createdAt: "2025-01-25", featured: false, status: "live" },
-  { id: "CRS-201", name: "Next.js Pro Bootcamp", category: "Development", duration: "2 mo", fees: 30000, createdAt: "2025-02-05", featured: true, status: "upcoming", startDate: "2025-03-10" },
-  { id: "CRS-202", name: "Figma to Code", category: "Design", duration: "1.5 mo", fees: 28000, createdAt: "2025-02-07", featured: false, status: "upcoming", startDate: "2025-03-20" },
-  { id: "CRS-203", name: "Power BI for Analysts", category: "Data", duration: "2 mo", fees: 35000, createdAt: "2025-02-08", featured: false, status: "upcoming", startDate: "2025-03-25" },
+  {
+    id: "CRS-101",
+    name: "Full-Stack Web Development",
+    category: "Development",
+    duration: "6 mo",
+    fees: 60000,
+    createdAt: "2025-01-15",
+    featured: true,
+    status: "live",
+  },
+  {
+    id: "CRS-102",
+    name: "UI/UX Design Mastery",
+    category: "Design",
+    duration: "4 mo",
+    fees: 45000,
+    createdAt: "2025-02-01",
+    featured: true,
+    status: "live",
+  },
+  {
+    id: "CRS-103",
+    name: "Data Science with Python",
+    category: "Data",
+    duration: "8 mo",
+    fees: 80000,
+    createdAt: "2024-12-20",
+    featured: false,
+    status: "live",
+  },
+  {
+    id: "CRS-104",
+    name: "Digital Marketing Essentials",
+    category: "Marketing",
+    duration: "3 mo",
+    fees: 40000,
+    createdAt: "2025-01-25",
+    featured: false,
+    status: "live",
+  },
+  {
+    id: "CRS-201",
+    name: "Next.js Pro Bootcamp",
+    category: "Development",
+    duration: "2 mo",
+    fees: 30000,
+    createdAt: "2025-02-05",
+    featured: true,
+    status: "upcoming",
+    startDate: "2025-03-10",
+  },
+  {
+    id: "CRS-202",
+    name: "Figma to Code",
+    category: "Design",
+    duration: "1.5 mo",
+    fees: 28000,
+    createdAt: "2025-02-07",
+    featured: false,
+    status: "upcoming",
+    startDate: "2025-03-20",
+  },
+  {
+    id: "CRS-203",
+    name: "Power BI for Analysts",
+    category: "Data",
+    duration: "2 mo",
+    fees: 35000,
+    createdAt: "2025-02-08",
+    featured: false,
+    status: "upcoming",
+    startDate: "2025-03-25",
+  },
 ];
 
-const categories = ["All", "Development", "Design", "Data", "Marketing"] as const;
+const categories = [
+  "All",
+  "Development",
+  "Design",
+  "Data",
+  "Marketing",
+] as const;
 
 type View =
   | "Create New Course"
@@ -54,14 +146,16 @@ type View =
 
 export default function Courses() {
   const [view, setView] = useState<View>("Create New Course");
-  const [categoryFilter, setCategoryFilter] = useState<(typeof categories)[number]>("All");
+  const [categoryFilter, setCategoryFilter] =
+    useState<(typeof categories)[number]>("All");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return allCourses.filter((c) =>
-      (categoryFilter === "All" || c.category === categoryFilter) &&
-      (c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q)),
+    return allCourses.filter(
+      (c) =>
+        (categoryFilter === "All" || c.category === categoryFilter) &&
+        (c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q)),
     );
   }, [search, categoryFilter]);
 
@@ -69,8 +163,12 @@ export default function Courses() {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Courses Management</h1>
-          <p className="text-sm text-muted-foreground">Create, organize and publish your courses</p>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Courses Management
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Create, organize and publish your courses
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <DropdownMenu>
@@ -105,7 +203,10 @@ export default function Courses() {
             onChange={(e) => setSearch(e.target.value)}
             className="h-9 w-56"
           />
-          <Select value={categoryFilter} onValueChange={(v) => setCategoryFilter(v as any)}>
+          <Select
+            value={categoryFilter}
+            onValueChange={(v) => setCategoryFilter(v as any)}
+          >
             <SelectTrigger className="h-9 w-44">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
@@ -124,10 +225,24 @@ export default function Courses() {
 
       {view === "Create New Course" && <CreateCourse />}
       {view === "Create Landing Page" && <CreateLanding />}
-      {view === "Upcoming Courses" && <UpcomingCourses courses={filtered.filter((c) => c.status === "upcoming")} />}
-      {view === "Featured Courses" && <FeaturedCourses courses={filtered.filter((c) => c.featured)} />}
-      {view === "Latest Courses" && <LatestCourses courses={[...filtered].sort((a,b)=> (a.createdAt<b.createdAt?1:-1))} />}
-      {view === "All Courses (Category Wise)" && <AllCoursesCategoryWise courses={filtered} />}
+      {view === "Upcoming Courses" && (
+        <UpcomingCourses
+          courses={filtered.filter((c) => c.status === "upcoming")}
+        />
+      )}
+      {view === "Featured Courses" && (
+        <FeaturedCourses courses={filtered.filter((c) => c.featured)} />
+      )}
+      {view === "Latest Courses" && (
+        <LatestCourses
+          courses={[...filtered].sort((a, b) =>
+            a.createdAt < b.createdAt ? 1 : -1,
+          )}
+        />
+      )}
+      {view === "All Courses (Category Wise)" && (
+        <AllCoursesCategoryWise courses={filtered} />
+      )}
     </div>
   );
 }
@@ -136,7 +251,9 @@ function CreateCourse() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2"><Plus className="h-5 w-5 text-primary" /> Create New Course</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          <Plus className="h-5 w-5 text-primary" /> Create New Course
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -151,24 +268,48 @@ function CreateCourse() {
               const fees = Number(data.fees || 0);
               const description = String(data.desc || "");
               addStoredCourse({ name, duration, fees, description });
-              toast({ title: "Course created", description: `${name} has been added and is now visible on the public Courses page.` });
+              toast({
+                title: "Course created",
+                description: `${name} has been added and is now visible on the public Courses page.`,
+              });
             } catch {
-              toast({ title: "Failed to save", description: "Could not persist course locally.", variant: "destructive" as any });
+              toast({
+                title: "Failed to save",
+                description: "Could not persist course locally.",
+                variant: "destructive" as any,
+              });
             }
             form.reset();
           }}
         >
           <div className="space-y-1.5">
             <Label htmlFor="name">Course Name</Label>
-            <Input id="name" name="name" required placeholder="e.g., Advanced React" />
+            <Input
+              id="name"
+              name="name"
+              required
+              placeholder="e.g., Advanced React"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="duration">Duration</Label>
-            <Input id="duration" name="duration" required placeholder="e.g., 6 mo" />
+            <Input
+              id="duration"
+              name="duration"
+              required
+              placeholder="e.g., 6 mo"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="fees">Fees (₹)</Label>
-            <Input id="fees" name="fees" type="number" required min={0} placeholder="e.g., 45000" />
+            <Input
+              id="fees"
+              name="fees"
+              type="number"
+              required
+              min={0}
+              placeholder="e.g., 45000"
+            />
           </div>
           <div className="space-y-1.5">
             <Label>Category</Label>
@@ -188,10 +329,16 @@ function CreateCourse() {
           </div>
           <div className="sm:col-span-2 space-y-1.5">
             <Label htmlFor="desc">Short Description</Label>
-            <Textarea id="desc" name="desc" placeholder="One-line description" />
+            <Textarea
+              id="desc"
+              name="desc"
+              placeholder="One-line description"
+            />
           </div>
           <div className="sm:col-span-2 flex justify-end gap-2">
-            <Button type="reset" variant="outline">Reset</Button>
+            <Button type="reset" variant="outline">
+              Reset
+            </Button>
             <Button type="submit">Create Course</Button>
           </div>
         </form>
@@ -205,19 +352,29 @@ function CreateLanding() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2"><Rocket className="h-5 w-5 text-primary" /> Create Landing Page</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          <Rocket className="h-5 w-5 text-primary" /> Create Landing Page
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form
           className="grid gap-4 sm:grid-cols-2"
           onSubmit={(e) => {
             e.preventDefault();
-            toast({ title: "Landing saved", description: "Your landing page draft is saved." });
+            toast({
+              title: "Landing saved",
+              description: "Your landing page draft is saved.",
+            });
           }}
         >
           <div className="space-y-1.5">
             <Label htmlFor="title">Page Title</Label>
-            <Input id="title" name="title" required placeholder="e.g., Master React in 8 Weeks" />
+            <Input
+              id="title"
+              name="title"
+              required
+              placeholder="e.g., Master React in 8 Weeks"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="hero">Hero Image URL</Label>
@@ -225,19 +382,27 @@ function CreateLanding() {
           </div>
           <div className="sm:col-span-2 space-y-1.5">
             <Label htmlFor="long">Description</Label>
-            <Textarea id="long" name="long" rows={4} placeholder="Write a compelling description..." />
+            <Textarea
+              id="long"
+              name="long"
+              rows={4}
+              placeholder="Write a compelling description..."
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="cta">CTA Text</Label>
             <Input id="cta" name="cta" placeholder="Enroll Now" />
           </div>
           <div className="space-y-1.5">
-            <Label className="flex items-center gap-2">Publish
+            <Label className="flex items-center gap-2">
+              Publish
               <Switch checked={publish} onCheckedChange={setPublish} />
             </Label>
           </div>
           <div className="sm:col-span-2 flex justify-end gap-2">
-            <Button type="button" variant="outline">Preview</Button>
+            <Button type="button" variant="outline">
+              Preview
+            </Button>
             <Button type="submit">Save</Button>
           </div>
         </form>
@@ -250,7 +415,9 @@ function UpcomingCourses({ courses }: { courses: Course[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2"><CalendarDays className="h-5 w-5 text-primary" /> Upcoming Courses</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          <CalendarDays className="h-5 w-5 text-primary" /> Upcoming Courses
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border overflow-x-auto">
@@ -267,7 +434,10 @@ function UpcomingCourses({ courses }: { courses: Course[] }) {
             <TableBody>
               {courses.map((c) => (
                 <TableRow key={c.id}>
-                  <TableCell className="font-medium">{c.name} <span className="text-muted-foreground">• {c.id}</span></TableCell>
+                  <TableCell className="font-medium">
+                    {c.name}{" "}
+                    <span className="text-muted-foreground">• {c.id}</span>
+                  </TableCell>
                   <TableCell>{c.category}</TableCell>
                   <TableCell>{c.duration}</TableCell>
                   <TableCell>₹ {c.fees.toLocaleString()}</TableCell>
@@ -290,16 +460,31 @@ function FeaturedCourses({ courses }: { courses: Course[] }) {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span className="line-clamp-1">{c.name}</span>
-              <Badge className="gap-1" variant="secondary"><Sparkles className="h-3.5 w-3.5" /> Featured</Badge>
+              <Badge className="gap-1" variant="secondary">
+                <Sparkles className="h-3.5 w-3.5" /> Featured
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <div>Category: <span className="text-foreground">{c.category}</span></div>
-            <div>Duration: <span className="text-foreground">{c.duration}</span></div>
-            <div>Fees: <span className="text-foreground">₹ {c.fees.toLocaleString()}</span></div>
-            <div>Added on: <span className="text-foreground">{c.createdAt}</span></div>
+            <div>
+              Category: <span className="text-foreground">{c.category}</span>
+            </div>
+            <div>
+              Duration: <span className="text-foreground">{c.duration}</span>
+            </div>
+            <div>
+              Fees:{" "}
+              <span className="text-foreground">
+                ₹ {c.fees.toLocaleString()}
+              </span>
+            </div>
+            <div>
+              Added on: <span className="text-foreground">{c.createdAt}</span>
+            </div>
             <div className="pt-2 flex gap-2">
-              <Button size="sm" variant="outline">View</Button>
+              <Button size="sm" variant="outline">
+                View
+              </Button>
               <Button size="sm">Promote</Button>
             </div>
           </CardContent>
@@ -330,7 +515,10 @@ function LatestCourses({ courses }: { courses: Course[] }) {
             <TableBody>
               {courses.map((c) => (
                 <TableRow key={c.id}>
-                  <TableCell className="font-medium">{c.name} <span className="text-muted-foreground">• {c.id}</span></TableCell>
+                  <TableCell className="font-medium">
+                    {c.name}{" "}
+                    <span className="text-muted-foreground">• {c.id}</span>
+                  </TableCell>
                   <TableCell>{c.category}</TableCell>
                   <TableCell>{c.duration}</TableCell>
                   <TableCell>₹ {c.fees.toLocaleString()}</TableCell>
@@ -375,7 +563,10 @@ function AllCoursesCategoryWise({ courses }: { courses: Course[] }) {
                 <TableBody>
                   {list.map((c) => (
                     <TableRow key={c.id}>
-                      <TableCell className="font-medium">{c.name} <span className="text-muted-foreground">• {c.id}</span></TableCell>
+                      <TableCell className="font-medium">
+                        {c.name}{" "}
+                        <span className="text-muted-foreground">• {c.id}</span>
+                      </TableCell>
                       <TableCell>{c.duration}</TableCell>
                       <TableCell>₹ {c.fees.toLocaleString()}</TableCell>
                       <TableCell>
@@ -386,7 +577,9 @@ function AllCoursesCategoryWise({ courses }: { courses: Course[] }) {
                         )}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm" variant="outline">Edit</Button>
+                        <Button size="sm" variant="outline">
+                          Edit
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}

@@ -18,7 +18,9 @@ export default function Students() {
     <div className="space-y-4">
       <div>
         <h1 className="text-xl font-semibold tracking-tight">Students</h1>
-        <p className="text-sm text-muted-foreground">Directory, actions, attendance, status tracking, and reports.</p>
+        <p className="text-sm text-muted-foreground">
+          Directory, actions, attendance, status tracking, and reports.
+        </p>
       </div>
       <Tabs defaultValue="directory">
         <TabsList>
